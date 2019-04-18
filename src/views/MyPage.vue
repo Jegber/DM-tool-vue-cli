@@ -2,19 +2,11 @@
 <div>
     <div v-if="user">
         <div class="header">
-            <div>
-                <h1>{{user.name}}</h1>
-            </div>
-            <div>
-                <p>
-                    <a @click="toggleUpload"><i class="far fa-image"></i></a>
-                    <a href="#" @click="logout"><i class="fas fa-sign-out-alt"></i></a>
-                </p>
-            </div>
+
         </div>
         <escape-event @escape="escape"></escape-event>
         <uploader :show="show" @escape="escape" @uploadFinished="uploadFinished" />
-        <image-gallery :photos="photos" />
+        <CharacterGallery :characters="characters" />
     </div>
     <div v-else>
         <p>If you would like to upload photos, please register for an account or login.</p>
@@ -29,13 +21,15 @@
 import EscapeEvent from '@/components/EscapeEvent.vue'
 import Uploader from '@/components/Uploader.vue'
 import ImageGallery from '@/components/ImageGallery.vue'
+import CharacterGallery from '@/components/CharacterGallery.vue'
 
 export default {
     name: 'mypage',
     components: {
         EscapeEvent,
         Uploader,
-        ImageGallery
+        ImageGallery,
+        CharacterGallery,
     },
     data() {
         return {
@@ -48,6 +42,9 @@ export default {
         },
         photos() {
             return this.$store.state.photos;
+        },
+        characters(){
+            return this.$store.state.characters;
         }
     },
     async created() {

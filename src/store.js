@@ -9,7 +9,9 @@ export default new Vuex.Store({
         user: null,
         photos: [],
         photo: null,
-        comments: []
+        comments: [],
+        characters: [],
+
     },
     mutations: {
         setUser(state, user) {
@@ -23,7 +25,13 @@ export default new Vuex.Store({
         },
         setComments(state, comments) {
             state.comments = comments;
+        },
+        setCharacters(state, characters){
+            console.log(characters);
+            state.characters = characters;
+            console.log(state.characters);
         }
+
     },
     actions: {
         async register(context, data) {
@@ -115,6 +123,43 @@ export default new Vuex.Store({
             } catch (error) {
                 return "";
             }
-        }
+        },
+        async getAllCharacters(context) {
+            try {
+                let response = await axios.get("/api/characters/all");
+                console.log(response);
+                console.log(response.data)
+;                context.commit('setCharacters', response.data);
+                console.log(characters);
+                return "";
+            } catch (error) {
+                return "";
+            }
+        },
+        async uploadCharacter(context, data) {
+            try {
+                await axios.post('/api/characters', data);
+                return "";
+            } catch (error) {
+                return error.response.data.message;
+            }
+        },
+        async editCharacter(context, data) {
+            try {
+                await axios.put("/api/characters/" + data.id, data);
+                return "";
+            } catch (error) {
+                return error.response.data.message;
+            }
+        },
+        async deleteCharacter(context, data) {
+            try {
+                await axios.delete('/api/characters/' + data.id, data);
+                return "";
+            } catch (error) {
+                return error.response.data.message;
+            }
+        },
+
     }
 })
